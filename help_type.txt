@@ -1,0 +1,40 @@
+dotnet new sln -o BuberDinner
+cd BuberDinner
+dotnet new webapi -o BuberDinner.Api
+dotnet new classlib -o BuberDinner.Contracts
+dotnet new classlib -o BuberDinner.Infrastructure
+dotnet new classlib -o BuberDinner.Application
+dotnet new classlib -o BuberDinner.Domain
+dir
+dotnet build
+notepad BuberDinner.sln
+dotnet sln add BuberDinner.Api BuberDinner.Application BuberDinner.Contracts BuberDinner.Domain BuberDinner.Infrastructure
+dotnet build
+dotnet add BuberDinner.Api reference BuberDinner.Contracts BuberDinner.Application
+dotnet add BuberDinner.Infrastructure reference BuberDinner.Application
+dotnet add BuberDinner.Application reference BuberDinner.Domain
+dotnet add BuberDinner.Api reference BuberDinner.Infrastructure
+code .
+dotnet build
+dotnet run --project .\BuberDinner.Api\
+
+NuGet Reverse Package Search ("Add Package" support)
+
+dotnet add .\BuberDinner.Application\ package Microsoft.Extensions.DependencyInjection.Abstractions
+
+dotnet add .\BuberDinner.Infrastructure\ package Microsoft.Extensions.DependencyInjection.Abstractions
+
+dotnet add .\BuberDinner.Infrastructure\ package System.IdentityModel.Tokens.Jwt
+
+dotnet add .\BuberDinner.Infrastructure\ package Microsoft.Extensions.Configuration
+
+dotnet add .\BuberDinner.Infrastructure\ package Microsoft.Extensions.Options.ConfigurationExtensions
+
+
+dotnet user-secrets init --project .\BuberDinner.Api\  (adiciona uma variável no .csproj)
+dotnet user-secrets set --project .\BuberDinner.Api\ "JwtSettings:Secret" "super-secret-key-from-user-secrets"
+dotnet user-secrets list --project .\BuberDinner.Api\
+
+
+dotnet add .\BuberDinner.Infrastructure\ package Microsoft.Extensions.Options.ConfigurationExtensions
+dotnet add .\BuberDinner.Api\ package Newtonsoft.Json (nem precisou)
